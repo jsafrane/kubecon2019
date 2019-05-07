@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function exportwithoutlayer()
+{
+    xmlstarlet c14n $1 | sed  >tmp.svg  -e "s/g id=\"layer$2\" style=\"display:inline\"/g id=\"layer$2\" style=\"display:none\"/"
+    inkscape tmp.svg -i layer1 -d 300 --export-png=$3
+    rm tmp.svg
+}
+
+# Full image with the first layer only
+inkscape pod-pv-pvc.svg -i layer1 -j -d 300 --export-png=pod-pv-pvc.png
+
+# Show Pod
+INPUT=pod-pv-pvc.svg
+exportwithoutlayer $INPUT 4 pod-gpv-gpvc.png
+
+# Show Pv
+exportwithoutlayer $INPUT 2 gpod-pv-gpvc.png
+
+# Show Pvc
+exportwithoutlayer $INPUT 3 gpod-gpv-pvc.png
+
+# Show Bound
+exportwithoutlayer $INPUT 5 gpod-gpv-gpvc-bound.png
+
+
+# Deployment - all layers
+inkscape deployment.svg -i layer1 -d 300 --export-png=deployment2.png
+exportwithoutlayer deployment.svg 2 deployment.png
+
+# Statefulset
+inkscape statefulset.svg -i layer1 -d 300 --export-png=statefulset.png
