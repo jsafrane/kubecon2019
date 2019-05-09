@@ -33,7 +33,7 @@ Jan Šafránek, Red Hat
 
 # Kubernetes
 
-* ~~Container~~ Pod orchertrator.
+* ~~Container~~ Pod orchestrator.
   * Pod = one or more containers.
     * Containers are stateless.
       * Cleared on exit.
@@ -773,9 +773,11 @@ template: inverse
 template: admin
 # PersistentVolume creation
 
-* Admin can pre-create PVs in advance.
-  * Usually for "brownfield" scenarios - volumes with legacy data.
+* Pre-created PVs.
+  * "Brownfield" scenarios (volumes with legacy data).
   * PV is `Available` until it matches a PVC. 
+
+* Dynamic provisioning
 
 ---
 
@@ -797,8 +799,6 @@ User requests some volume for application data.
       * `kube-controller-manager` for Kubernetes volume plugins.
       * External provisioner.
       * External CSI provisioner.
-
-TODO: mention `kubectl describe pvc` for debugging somewhere
 
 ---
 
@@ -875,10 +875,6 @@ template: user
 * Scalable up & down.
 * All pods share the same PVC!
 
-```yaml
-TODO: simple deployment with PVC
-```
-
 ---
 
 template: user
@@ -912,9 +908,6 @@ template: user
 * Each pod has a stable identity.
 * Scalable up & down.
 
-```yaml
-TODO: simple statefulset?
-```
 ---
 
 template: user
@@ -922,7 +915,7 @@ template: user
 .center[
 <img src="statefulset.png" width="70%"/>
 ]
-* The pods must be aware of other siblings!
+* The pods must be aware of their siblings!
 * Usually very complex setup.
   
 ---
@@ -994,10 +987,18 @@ PV provisioning is delayed until Pod is created for scheduler to pick a node tha
 
 # Snapshots
 
-* Alpha!
+* Alpha.
 * Part of CSI.
 * Can take a snapshot of PVC.
 * PVC can be provisioned from a snapshot.
+
+---
+
+# [CSI migration](https://github.com/kubernetes/enhancements/blob/master/keps/sig-storage/20190129-csi-migration.md)
+
+* Alpha.
+* Remove in-tree volume plugins.
+* Translate to CSI seamlessly.
  
 ---
 
@@ -1030,6 +1031,35 @@ template: inverse
 * Collection of PersistentVolumes with the same characteristics.
 * Parameters for dynamic provisioning.
 ]
+---
+
+template: inverse
+# It's not all!
+
+---
+
+# Kubecon EU 2019
+
+* David Zhu, Google & Jan Šafránek: [Tutorial: Back to Basics: Hands-On Deployment of Stateful Workloads on Kubernetes](https://kccnceu19.sched.com/event/MPgl/tutorial-back-to-basics-hands-on-deployment-of-stateful-workloads-on-kubernetes-david-zhu-google-jan-safranek-red-hat), Tue 11:05
+* Josh Berkus: [Benchmarking Cloud Native Storage](https://kccnceu19.sched.com/event/MPcq/benchmarking-cloud-native-storage-josh-berkus-red-hat), Tue 11:55
+* Saad Ali: [Debunking the Myth: Kubernetes Storage is Hard (keynote)](https://kccnceu19.sched.com/event/MQhi/keynote-debunking-the-myth-kubernetes-storage-is-hard-saad-ali-senior-software-engineer-google), Wed 9:58 
+* Jared Watts: [Data Without Borders - Using Rook Storage Orchestration at a Global Scale](https://kccnceu19.sched.com/event/MPfq/data-without-borders-using-rook-storage-orchestration-at-a-global-scale-jared-watts-upbound), Wed 11:05
+* Jared Watts & Bassam Tabbara: [Deep Dive: Rook](https://kccnceu19.sched.com/event/MPk3/deep-dive-rook-jared-watts-bassam-tabbara-upbound), Wed 11:55
+* Iqbal Farabi & Tara Baskara: [Benchmarking Cloud Native Databases Performance on Kubernetes](https://kccnceu19.sched.com/event/MPfe/benchmarking-cloud-native-databases-performance-on-kubernetes-iqbal-farabi-tara-baskara-go-jek), Wed 11:55 
+* Sheng Yang: [Build a Kubernetes Based Cloud Native Storage Solution From Scratch](https://kccnceu19.sched.com/event/MPXK/build-a-kubernetes-based-cloud-native-storage-solution-from-scratch-sheng-yang-rancher-labs), Wed 12:30
+* Federico Lucifredi & Sébastien Han: [Rook, Ceph, and ARM: A Caffeinated Tutorial](https://kccnceu19.sched.com/event/MPfn/rook-ceph-and-arm-a-caffeinated-tutorial-federico-lucifredi-sebastien-han-red-hat), Wed 16:45
+* Michelle Au: [Improving Availability for Stateful Applications in Kubernetes](https://kccnceu19.sched.com/event/MPfh/improving-availability-for-stateful-applications-in-kubernetes-michelle-au-google), Wed 15:55
+* Saad Ali: [Intro + Deep Dive: Kubernetes Storage SIG](https://kccnceu19.sched.com/event/MPlJ/intro-deep-dive-kubernetes-storage-sig-saad-ali-google), Thu 11:05
+
+---
+
+# Reach out
+
+[Kubernetes SIG Storage](https://github.com/kubernetes/community/tree/master/sig-storage)
+* [Bi-weekly meetings](https://docs.google.com/document/d/1-8KEG8AjAgKznS9NFm3qWqkGyCHmvU6HVl0sk5hwoAE/edit?usp=sharing)
+* [Slack](https://kubernetes.slack.com/messages/sig-storage)
+* [Mailing list](https://groups.google.com/forum/#!forum/kubernetes-sig-storage)
+
 ---
 
 template: inverse
@@ -1208,3 +1238,7 @@ spec:
 ]
 
 ---
+
+Features:
+- inline volumes
+- subpath?
