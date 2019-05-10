@@ -781,7 +781,14 @@ template: admin
 
 ---
 
-template: user
+template: inverse
+
+.center[
+# Under the hood
+]
+
+---
+
 # PersistentVolumeClaim creation
 
 User requests some volume for application data.
@@ -802,7 +809,6 @@ User requests some volume for application data.
 
 ---
 
-template: user
 # Pod creation
 
 User wants to run a container with mounted volume
@@ -827,7 +833,6 @@ User wants to run a container with mounted volume
 
 ---
 
-template: user
 # PersistentVolumeClaim deletion
 
 User does not want the application data.
