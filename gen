@@ -2,7 +2,7 @@
 
 function exportwithoutlayer()
 {
-    xmlstarlet c14n $1 | sed  >tmp.svg  -e "s/g id=\"layer$2\" style=\"display:inline\"/g id=\"layer$2\" style=\"display:none\"/"
+    xmlstarlet c14n $1 | sed  >tmp.svg  -e "s/g id=\"layer\\($2\\)\" style=\"display:inline\"/g id=\"layer\\1\" style=\"display:none\"/"
     inkscape tmp.svg -i layer1 -d 300 --export-png=$3
     rm tmp.svg
 }
@@ -12,16 +12,19 @@ inkscape pod-pv-pvc.svg -i layer1 -j -d 300 --export-png=pod-pv-pvc.png
 
 # Show Pod
 INPUT=pod-pv-pvc.svg
-exportwithoutlayer $INPUT 4 pod-gpv-gpvc.png
+exportwithoutlayer $INPUT "[46]" pod-gpv-gpvc.png
 
 # Show Pv
-exportwithoutlayer $INPUT 2 gpod-pv-gpvc.png
+exportwithoutlayer $INPUT "[26]" gpod-pv-gpvc.png
 
 # Show Pvc
-exportwithoutlayer $INPUT 3 gpod-gpv-pvc.png
+exportwithoutlayer $INPUT "[36"] gpod-gpv-pvc.png
+
+# Show Pv + deleted PVC
+exportwithoutlayer $INPUT 2 gpod-pv-dpvc.png
 
 # Show Bound
-exportwithoutlayer $INPUT 5 gpod-gpv-gpvc-bound.png
+exportwithoutlayer $INPUT "[56]" gpod-gpv-gpvc-bound.png
 
 
 # Deployment - all layers

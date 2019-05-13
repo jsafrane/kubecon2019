@@ -621,7 +621,26 @@ spec:
 ---
 
 template: admin
-# Binding
+
+# PersistentVolume Life Cycle: Creation
+
+.column1_20[
+  .center[
+    <img src="gpod-pv-gpvc.png" width="150px"/><br/>
+  ]
+]
+
+.column2[
+* Pre-created PVs.
+  * "Brownfield" scenarios (volumes with legacy data).
+  * PV is `Available` until it matches a PVC. 
+* Dynamic provisioning.
+]
+
+---
+
+template: admin
+# PersistentVolume Life Cycle: Binding
 
 .column1_20[
   .center[
@@ -637,7 +656,81 @@ When PVC is created:
 * No matching PV && dynamic provisioning not possible / failed: PVC is `Pending`. 
 ]
 
-TODO: image with flowchart?
+---
+
+template: admin
+# PersistentVolume Life Cycle: Release
+
+.column1_20[
+  .center[
+    <img src="gpod-pv-dpvc.png" width="150px"/><br/>
+  ]
+]
+
+.column2[
+
+PVC is deleted: `persistentVolumeReclaimPolicy` is executed:
+  * `Recycle` (deprecated):
+      * **All data from the volume are removed** ("`rm -rf *`").
+      * PV is `Available` for new PVCs.
+  * `Delete`:
+      * **Volume is deleted in the storage backend.**
+      * PV is deleted.
+      * Usually for dynamically-provisioned volumes
+  * `Retain`:
+      * PV is kept `Released`.
+      * **No PVC can bind to it.**
+      * Admin should manually prune `Released` volumes.
+
+In all cases, user can't access the data!
+
+]
+
+---
+
+template: admin
+# PersistentVolume Life Cycle: Release debugging
+
+Debugging:
+
+```shell
+$ kubectl get pv
+NAME         CAPACITY ACCESS MODES RECLAIM POLICY STATUS
+pvc-e910afa9 1Gi      RWO          Delete         Failed
+```
+
+--
+
+```shell
+*$ kubectl describe pv
+...
+Events:
+  Type    Reason             Age  From                        Message
+  ----    ------             ---- ----                        -------
+  Warning VolumeFailedDelete 66s  persistentvolume-controller Error deleting EBS volume "vol-045c"
+since volume is currently attached to "i-0ad296cb18de65bf6"
+
+```
+
+---
+
+template: admin
+# PersistentVolume Life Cycle: Deletion
+
+.column1_20[
+  .center[
+    <img src="gpod-pv-dpvc.png" width="150px"/><br/>
+  ]
+]
+
+.column2[
+
+* Automatic:
+  * `persistentVolumeReclaimPolicy = Delete`.
+* Manual:
+  * PV is `Released`.
+  * Does not delete volume on storage backend!
+]
 
 ---
 
@@ -669,7 +762,6 @@ parameters:
 * Usually admin territory.
 * Global, not namespaced.
 ]
-
 
 ---
 
@@ -766,94 +858,6 @@ parameters:
 ---
 
 template: inverse
-# Life of a volume and pod
-
----
-
-template: admin
-# PersistentVolume creation
-
-* Pre-created PVs.
-  * "Brownfield" scenarios (volumes with legacy data).
-  * PV is `Available` until it matches a PVC. 
-
-* Dynamic provisioning
-
----
-
-template: inverse
-
-.center[
-# Under the hood
-]
-
----
-
-# PersistentVolumeClaim creation
-
-User requests some volume for application data.
-
---
-* Default `StorageClass` is set.
-  * Admission plugin in `kube-apiserver`.
---
-* Matching PV exists -> both are `Bound` together.
-  * PersistentVolume controller in `kube-controller-manager`.
---
-* Matching PV does not exist -> dynamic provisioning.
-  * Initiated by PersistentVolume controller in `kube-controller-manager`.
-  * Performed by:
-      * `kube-controller-manager` for Kubernetes volume plugins.
-      * External provisioner.
-      * External CSI provisioner.
-
----
-
-# Pod creation
-
-User wants to run a container with mounted volume
-
---
-* Pod is scheduled to a node.
---
-* Volume is attached to the node.
-  * Attachable volumes only (cloud).
-  * Attach/Detach controller in `kube-controller-manager`.
---
-* Volume is mounted to the node.
-  * Volume is formatted if it's empty. 
-  * `kubelet`.
---
-* Container is started.
-  * `kubelet`.
---
-
-## Pod deletion
-* Reverse of the above steps.
-
----
-
-# PersistentVolumeClaim deletion
-
-User does not want the application data.
-
-* `pv.spec.persistentVolumeReclaimPolicy` is executed by `kube-controller-manager`.
-  * `Recycle` (deprecated):
-      * **All data from the volume are removed** ("`rm -rf *`").
-      * PV is `Available` for new PVCs.
-  * `Delete`:
-      * **Volume is deleted in the storage backend.**
-      * PV is deleted.
-      * Usually for dynamically-provisioned volumes
-  * `Retain`:
-      * PV is kept `Released`.
-      * **No PVC can bind to it.**
-      * Admin should manually prune `Released` volumes.
-* **Volume can be deleted when user deletes PVC!!!** 
-
----
-
-template: inverse
 
 # Stateful applications
 
@@ -928,8 +932,6 @@ template: user
 template: inverse
 # Storage features
 
-TODO: any interesting feature missing?
-
 ---
 
 # [Topology aware scheduling](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode)
@@ -944,6 +946,8 @@ TODO: any interesting feature missing?
 
 PV provisioning is delayed until Pod is created for scheduler to pick a node that matches both PV & Pod.
 
+Wednesday, Hall 8.0 D2, 15:55: [Improving Availability for Stateful Applications in Kubernetes - Michelle Au](https://kccnceu19.sched.com/event/MPfh/improving-availability-for-stateful-applications-in-kubernetes-michelle-au-google)
+
 ---
 
 # [Local volumes](https://kubernetes.io/blog/2018/04/13/local-persistent-volumes-beta/)
@@ -955,19 +959,19 @@ PV provisioning is delayed until Pod is created for scheduler to pick a node tha
 
 ---
 
-# [Resize](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims)
-
-* Only expansion is supported.
-* Offline.
-* Online (alpha). 
-
----
-
 # [Raw block](https://kubernetes.io/blog/2019/03/07/raw-block-volume-support-to-beta/)
 
 * Pods can get a block device of a PV.
   * For extra speed.
   * For software defined storage. 
+
+---
+
+# [Resize](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims)
+
+* Only expansion is supported.
+* Offline.
+* Online (alpha).
 
 ---
 
