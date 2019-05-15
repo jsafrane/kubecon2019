@@ -621,120 +621,6 @@ spec:
 ---
 
 template: admin
-
-# PersistentVolume Life Cycle: Creation
-
-.column1_20[
-  .center[
-    <img src="gpod-pv-gpvc.png" width="150px"/><br/>
-  ]
-]
-
-.column2[
-* Pre-created PVs.
-  * "Brownfield" scenarios (volumes with legacy data).
-  * PV is `Available` until it matches a PVC. 
-* Dynamic provisioning.
-]
-
----
-
-template: admin
-# PersistentVolume Life Cycle: Binding
-
-.column1_20[
-  .center[
-    <img src="gpod-gpv-gpvc-bound.png" width="150px"/><br/>
-  ]
-]
-
-.column2[
-When PVC is created:
-* *Matching* PV exists: they're `Bound` together.
-* No matching PV: dynamic provisioning.
-  * Based on StorageClass.
-* No matching PV && dynamic provisioning not possible / failed: PVC is `Pending`. 
-]
-
----
-
-template: admin
-# PersistentVolume Life Cycle: Release
-
-.column1_20[
-  .center[
-    <img src="gpod-pv-dpvc.png" width="150px"/><br/>
-  ]
-]
-
-.column2[
-
-PVC is deleted: `persistentVolumeReclaimPolicy` is executed:
-  * `Recycle` (deprecated):
-      * **All data from the volume are removed** ("`rm -rf *`").
-      * PV is `Available` for new PVCs.
-  * `Delete`:
-      * **Volume is deleted in the storage backend.**
-      * PV is deleted.
-      * Usually for dynamically-provisioned volumes
-  * `Retain`:
-      * PV is kept `Released`.
-      * **No PVC can bind to it.**
-      * Admin should manually prune `Released` volumes.
-
-In all cases, user can't access the data!
-
-]
-
----
-
-template: admin
-# PersistentVolume Life Cycle: Release debugging
-
-Debugging:
-
-```shell
-$ kubectl get pv
-NAME         CAPACITY ACCESS MODES RECLAIM POLICY STATUS
-pvc-e910afa9 1Gi      RWO          Delete         Failed
-```
-
---
-
-```shell
-*$ kubectl describe pv
-...
-Events:
-  Type    Reason             Age  From                        Message
-  ----    ------             ---- ----                        -------
-  Warning VolumeFailedDelete 66s  persistentvolume-controller Error deleting EBS volume "vol-045c"
-since volume is currently attached to "i-0ad296cb18de65bf6"
-
-```
-
----
-
-template: admin
-# PersistentVolume Life Cycle: Deletion
-
-.column1_20[
-  .center[
-    <img src="gpod-pv-dpvc.png" width="150px"/><br/>
-  ]
-]
-
-.column2[
-
-* Automatic:
-  * `persistentVolumeReclaimPolicy = Delete`.
-* Manual:
-  * PV is `Released`.
-  * Does not delete volume on storage backend!
-]
-
----
-
-template: admin
 # StorageClass
 
 .column1_20[
@@ -853,6 +739,114 @@ parameters:
 
 * One `StorageClass` in the cluster can be default.
   * PVC without any `StorageClass` gets the default one.
+]
+
+---
+
+template: inverse
+# PersistentVolume Life Cycle
+
+---
+
+template: admin
+
+# PersistentVolume Life Cycle: Creation
+
+.column1_20[
+  .center[
+    <img src="gpod-pv-gpvc.png" width="150px"/><br/>
+  ]
+]
+
+.column2[
+* Dynamic provisioning.
+* Pre-created PVs.
+  * "Brownfield" scenarios (volumes with legacy data).
+  * PV is `Available` until it matches a PVC.
+    * PV is available to PVC in any namespace! 
+]
+
+---
+
+template: admin
+# PersistentVolume Life Cycle: Binding
+
+.column1_20[
+  .center[
+    <img src="gpod-gpv-gpvc-bound.png" width="150px"/><br/>
+  ]
+]
+
+.column2[
+When PVC is created:
+* *Matching* PV exists: they're `Bound` together.
+* No matching PV: dynamic provisioning.
+  * Based on StorageClass.
+* No matching PV && dynamic provisioning not possible / failed: PVC is `Pending`. 
+]
+
+---
+template: admin
+# PersistentVolume Life Cycle: Bound
+
+.column1_20[
+  .center[
+    <img src="pod-pv-pvc.png" width="150px"/><br/>
+  ]
+]
+
+.column2[
+`Bound` PVCs can be used in Pods.
+]
+
+---
+
+template: admin
+# PersistentVolume Life Cycle: Release
+
+.column1_20[
+  .center[
+    <img src="gpod-pv-dpvc.png" width="150px"/><br/>
+  ]
+]
+
+.column2[
+
+PVC is deleted: `persistentVolumeReclaimPolicy` is executed:
+  * `Recycle` (deprecated):
+      * **All data from the volume are removed** ("`rm -rf *`").
+      * PV is `Available` for new PVCs.
+  * `Delete`:
+      * **Volume is deleted in the storage backend.**
+      * PV is deleted.
+      * Usually for dynamically-provisioned volumes
+  * `Retain`:
+      * PV is kept `Released`.
+      * **No PVC can bind to it.**
+      * Admin should manually prune `Released` volumes.
+
+In all cases, user can't access the data!
+
+]
+
+---
+
+template: admin
+# PersistentVolume Life Cycle: Deletion
+
+.column1_20[
+  .center[
+    <img src="gpod-pv-dpvc.png" width="150px"/><br/>
+  ]
+]
+
+.column2[
+
+* Automatic:
+  * `persistentVolumeReclaimPolicy = Delete`.
+* Manual:
+  * PV is not `Bound`.
+  * Does not delete volume on storage backend!
 ]
 
 ---
