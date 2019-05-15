@@ -98,26 +98,6 @@ spec:
 * Created by Kubernetes on demand ("dynamic provisioning").
 ]
 
-
----
-
-# Kubernetes Persistent Storage Objects
-
-.column1_20[
-  .center[
-  <img src="class.png" class="icon"/>
-  ]
-]
-
-.column2[
-`StorageClass`
-* Collection of PersistentVolumes with the same characteristics.
-  * "Fast", "Cheap", "Replicated", ...
-* Parameters for dynamic provisioning.
-* Created by admin.
-* Subject of quota per namespace.
-]
-
 ---
 
 # Kubernetes Persistent Storage Objects Portability
@@ -142,6 +122,25 @@ spec:
       * Paths.
       * Usernames / passwords.
       * ...
+]
+
+---
+
+# Kubernetes Persistent Storage Objects
+
+.column1_20[
+  .center[
+  <img src="class.png" class="icon"/>
+  ]
+]
+
+.column2[
+`StorageClass`
+* Collection of PersistentVolumes with the same characteristics.
+  * "Fast", "Cheap", "Replicated", ...
+* Parameters for dynamic provisioning.
+* Created by admin.
+* Subject of quota per namespace.
 ]
 
 ---
