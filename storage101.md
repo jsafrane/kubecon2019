@@ -716,72 +716,7 @@ template: inverse
 
 template: admin
 
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding1.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding2.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding3.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding4.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding5.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding6.png" width="40%"/><br/>
-]
-
---
-
-* PV is `Available` until it matches a PVC.
-  * PV is available to PVC in *any namespace*! 
-
----
-
-template: admin
-
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning1.png" width="50%"/><br/>
@@ -791,7 +726,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning2.png" width="50%"/><br/>
@@ -801,7 +736,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning3.png" width="50%"/><br/>
@@ -811,7 +746,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning4.png" width="50%"/><br/>
@@ -821,7 +756,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning5.png" width="50%"/><br/>
@@ -831,7 +766,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning6.png" width="50%"/><br/>
@@ -841,7 +776,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning7.png" width="50%"/><br/>
@@ -851,7 +786,44 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
+
+.center[
+  <img src="provisioning8.png" width="50%"/><br/>
+]
+
+
+---
+
+template: admin
+
+# PersistentVolume: Manual Provisioning
+
+.center[
+  <img src="binding1.png" width="40%"/><br/>
+]
+
+- "Brownfield" use case.
+  - Using data of old apps.
+
+---
+
+template: admin
+
+# PersistentVolume: Manual Provisioning
+
+.center[
+  <img src="binding5.png" width="40%"/><br/>
+]
+
+- "Brownfield" use case.
+  - Using data of old apps.
+
+---
+
+template: admin
+
+# PersistentVolume: Release
 
 .center[
   <img src="provisioning8.png" width="50%"/><br/>
@@ -861,7 +833,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Release
 
 .center[
   <img src="provisioning9.png" width="50%"/><br/>
@@ -871,7 +843,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Release
 
 .center[
   <img src="provisioning10.png" width="50%"/><br/>
@@ -880,7 +852,7 @@ template: admin
 ---
 
 template: admin
-# PersistentVolume Life Cycle: Release
+# PersistentVolume: Release
 
 .column1_20[
   .center[
