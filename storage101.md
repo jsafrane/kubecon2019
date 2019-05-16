@@ -996,7 +996,7 @@ template: user
 .center[
 <img src="statefulset.png" width="70%"/>
 ]
-* The pods must be aware of their siblings!
+* The pods must be aware of the other StatefulSet members!
 * Usually very complex setup.
   
 ---
