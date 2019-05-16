@@ -749,53 +749,165 @@ template: inverse
 
 template: admin
 
-# PersistentVolume Life Cycle: Creation
+# PersistentVolume Life Cycle: Manual provisioning
 
-.column1_20[
-  .center[
-    <img src="gpod-pv-gpvc.png" width="150px"/><br/>
-  ]
-]
-
-.column2[
-* Dynamic provisioning.
-* Pre-created PVs.
-  * "Brownfield" scenarios (volumes with legacy data).
-  * PV is `Available` until it matches a PVC.
-    * PV is available to PVC in any namespace! 
+.center[
+  <img src="binding1.png" width="40%"/><br/>
 ]
 
 ---
 
 template: admin
-# PersistentVolume Life Cycle: Binding
 
-.column1_20[
-  .center[
-    <img src="gpod-gpv-gpvc-bound.png" width="150px"/><br/>
-  ]
-]
+# PersistentVolume Life Cycle: Manual provisioning
 
-.column2[
-When PVC is created:
-* *Matching* PV exists: they're `Bound` together.
-* No matching PV: dynamic provisioning.
-  * Based on StorageClass.
-* No matching PV && dynamic provisioning not possible / failed: PVC is `Pending`. 
+.center[
+  <img src="binding2.png" width="40%"/><br/>
 ]
 
 ---
-template: admin
-# PersistentVolume Life Cycle: Bound
 
-.column1_20[
-  .center[
-    <img src="pod-pv-pvc.png" width="150px"/><br/>
-  ]
+template: admin
+
+# PersistentVolume Life Cycle: Manual provisioning
+
+.center[
+  <img src="binding3.png" width="40%"/><br/>
 ]
 
-.column2[
-`Bound` PVCs can be used in Pods.
+---
+
+template: admin
+
+# PersistentVolume Life Cycle: Manual provisioning
+
+.center[
+  <img src="binding4.png" width="40%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume Life Cycle: Manual provisioning
+
+.center[
+  <img src="binding5.png" width="40%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume Life Cycle: Manual provisioning
+
+.center[
+  <img src="binding6.png" width="40%"/><br/>
+]
+
+--
+
+* PV is `Available` until it matches a PVC.
+  * PV is available to PVC in *any namespace*! 
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning1.png" width="50%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning2.png" width="50%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning3.png" width="50%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning4.png" width="50%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning5.png" width="50%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning6.png" width="50%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning7.png" width="50%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning8.png" width="50%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning9.png" width="50%"/><br/>
+]
+
+---
+
+template: admin
+
+# PersistentVolume: Dynamic provisioning
+
+.center[
+  <img src="provisioning10.png" width="50%"/><br/>
 ]
 
 ---

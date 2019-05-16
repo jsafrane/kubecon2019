@@ -7,6 +7,13 @@ function exportwithoutlayer()
     rm tmp.svg
 }
 
+function exportwithlayer()
+{
+    xmlstarlet c14n $1 | sed  -e "s/g id=\"layer\\([0-9]*\\)\" style=\"display:inline\"/g id=\"layer\\1\" style=\"display:none\"/" | sed > tmp.svg -e "s/g id=\"layer\\($2\\)\" style=\"display:none\"/g id=\"layer\\1\" style=\"display:inline\"/"
+    inkscape tmp.svg -i layer1 -d 300 --export-png=$3
+    #rm tmp.svg
+}
+
 # Full image with the first layer only
 inkscape pod-pv-pvc.svg -i layer1 -j -d 300 --export-png=pod-pv-pvc.png
 
@@ -26,6 +33,29 @@ exportwithoutlayer $INPUT 2 gpod-pv-dpvc.png
 # Show Bound
 exportwithoutlayer $INPUT "[56]" gpod-gpv-gpvc-bound.png
 
+# Binding
+INPUT=binding.svg
+I=1
+exportwithlayer $INPUT "[14]" binding$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[1]" binding$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[157]" binding$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[152]" binding$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[153]" binding$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[1536]" binding$I.png; I=$[$I+1]
+
+# Provisioning
+INPUT=provisioning.svg
+I=1
+exportwithlayer $INPUT "[17]" provisioning$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[1]" provisioning$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[146]" provisioning$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[16]" provisioning$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[1268]" provisioning$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[126]" provisioning$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[1263]" provisioning$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[12639]" provisioning$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[1263]" provisioning$I.png; I=$[$I+1]
+exportwithlayer $INPUT "[1265]" provisioning$I.png; I=$[$I+1]
 
 # Deployment - all layers
 inkscape deployment.svg -i layer1 -d 300 --export-png=deployment2.png
