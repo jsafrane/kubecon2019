@@ -948,7 +948,7 @@ template: user
 ---
 
 template: user
-# Kubernetes hig-level objects
+# Kubernetes high-level objects
 
 `Deployment`
 * Runs X replicas of a single Pod template.
@@ -980,7 +980,7 @@ template: user
 ---
 
 template: user
-# Kubernetes hig-level objects
+# Kubernetes high-level objects
 
 `StatefulSet`
 * Runs X replicas of a single Pod template.
