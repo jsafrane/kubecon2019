@@ -375,39 +375,6 @@ Events:
 
 ---
 
-template: user
-# Delayed binding
-
-Depending on `StorageClass`, PVC binding may be delayed until the PVC is consumed by a pod.
-
-```shell
-$ kubectl get pvc
-NAME              STATUS 
-my-delayed-claim  Pending
-
-$ kubectl describe pvc
-...
-Events:
-  Type    Reason                Age   From                         Message
-  ----    ------                ----  ----                         -------
-  Normal  WaitForFirstConsumer  9s    persistentvolume-controller  waiting for first consumer to
-be created before binding
-```
---
-```shell
-$ kubectl create -f pod.yaml
-pod/mysql created
-```
---
-```shell
-$ kubectl get pvc
-NAME              STATUS 
-my-delayed-claim  Bound
-
-```
-
----
-
 template: admin
 # PersistentVolume
 
@@ -1050,6 +1017,38 @@ template: inverse
   * Where is enough resources to run the pod (CPU, memory, GPU, ...)
 
 PV provisioning is delayed until Pod is created for scheduler to pick a node that matches both PV & Pod.
+
+---
+
+# [Topology aware scheduling](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode): Delayed binding
+
+PV provisioning is delayed until Pod is created for scheduler to pick a node that matches both PV & Pod.
+
+```shell
+$ kubectl get pvc
+NAME              STATUS 
+my-delayed-claim  Pending
+
+$ kubectl describe pvc
+...
+Events:
+  Type    Reason                Age   From                         Message
+  ----    ------                ----  ----                         -------
+  Normal  WaitForFirstConsumer  9s    persistentvolume-controller  waiting for first consumer to
+be created before binding
+```
+--
+```shell
+$ kubectl create -f pod.yaml
+pod/mysql created
+```
+--
+```shell
+$ kubectl get pvc
+NAME              STATUS 
+my-delayed-claim  Bound
+
+```
 
 Wednesday, Hall 8.0 D2, 15:55: [Improving Availability for Stateful Applications in Kubernetes - Michelle Au](https://kccnceu19.sched.com/event/MPfh/improving-availability-for-stateful-applications-in-kubernetes-michelle-au-google)
 
