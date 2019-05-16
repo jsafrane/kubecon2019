@@ -366,9 +366,9 @@ my-broken-claim   Pending
 *$ kubectl describe pvc
 ...
 Events:
-  Type       Reason              Age               From                         Message
-  ----       ------              ----              ----                         -------
-  Warning    ProvisioningFailed  8s (x4 over 53s)  persistentvolume-controller  storageclass.storage.k8s
+  Type     Reason              Age               From                         Message
+  ----     ------              ----              ----                         -------
+  Warning  ProvisioningFailed  8s (x4 over 53s)  persistentvolume-controller  storageclass.storage.k8s
 .io "foo" not found
 
 ```
