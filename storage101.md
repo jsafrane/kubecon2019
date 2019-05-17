@@ -366,43 +366,10 @@ my-broken-claim   Pending
 *$ kubectl describe pvc
 ...
 Events:
-  Type       Reason              Age               From                         Message
-  ----       ------              ----              ----                         -------
-  Warning    ProvisioningFailed  8s (x4 over 53s)  persistentvolume-controller  storageclass.storage.k8s
+  Type     Reason              Age               From                         Message
+  ----     ------              ----              ----                         -------
+  Warning  ProvisioningFailed  8s (x4 over 53s)  persistentvolume-controller  storageclass.storage.k8s
 .io "foo" not found
-
-```
-
----
-
-template: user
-# Delayed binding
-
-Depending on `StorageClass`, PVC binding may be delayed until the PVC is consumed by a pod.
-
-```shell
-$ kubectl get pvc
-NAME              STATUS 
-my-delayed-claim  Pending
-
-$ kubectl describe pvc
-...
-Events:
-  Type    Reason                Age   From                         Message
-  ----    ------                ----  ----                         -------
-  Normal  WaitForFirstConsumer  9s    persistentvolume-controller  waiting for first consumer to
-be created before binding
-```
---
-```shell
-$ kubectl create -f pod.yaml
-pod/mysql created
-```
---
-```shell
-$ kubectl get pvc
-NAME              STATUS 
-my-delayed-claim  Bound
 
 ```
 
@@ -749,72 +716,7 @@ template: inverse
 
 template: admin
 
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding1.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding2.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding3.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding4.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding5.png" width="40%"/><br/>
-]
-
----
-
-template: admin
-
-# PersistentVolume Life Cycle: Manual provisioning
-
-.center[
-  <img src="binding6.png" width="40%"/><br/>
-]
-
---
-
-* PV is `Available` until it matches a PVC.
-  * PV is available to PVC in *any namespace*! 
-
----
-
-template: admin
-
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning1.png" width="50%"/><br/>
@@ -824,7 +726,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning2.png" width="50%"/><br/>
@@ -834,7 +736,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning3.png" width="50%"/><br/>
@@ -844,7 +746,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning4.png" width="50%"/><br/>
@@ -854,7 +756,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning5.png" width="50%"/><br/>
@@ -864,7 +766,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning6.png" width="50%"/><br/>
@@ -874,7 +776,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
 
 .center[
   <img src="provisioning7.png" width="50%"/><br/>
@@ -884,7 +786,44 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Dynamic Provisioning
+
+.center[
+  <img src="provisioning8.png" width="50%"/><br/>
+]
+
+
+---
+
+template: admin
+
+# PersistentVolume: Manual Provisioning
+
+.center[
+  <img src="binding1.png" width="40%"/><br/>
+]
+
+- "Brownfield" use case.
+  - Using data of old apps.
+
+---
+
+template: admin
+
+# PersistentVolume: Manual Provisioning
+
+.center[
+  <img src="binding5.png" width="40%"/><br/>
+]
+
+- "Brownfield" use case.
+  - Using data of old apps.
+
+---
+
+template: admin
+
+# PersistentVolume: Release
 
 .center[
   <img src="provisioning8.png" width="50%"/><br/>
@@ -894,7 +833,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Release
 
 .center[
   <img src="provisioning9.png" width="50%"/><br/>
@@ -904,7 +843,7 @@ template: admin
 
 template: admin
 
-# PersistentVolume: Dynamic provisioning
+# PersistentVolume: Release
 
 .center[
   <img src="provisioning10.png" width="50%"/><br/>
@@ -913,7 +852,7 @@ template: admin
 ---
 
 template: admin
-# PersistentVolume Life Cycle: Release
+# PersistentVolume: Release
 
 .column1_20[
   .center[
@@ -981,7 +920,7 @@ template: user
 ---
 
 template: user
-# Kubernetes hig-level objects
+# Kubernetes high-level objects
 
 `Deployment`
 * Runs X replicas of a single Pod template.
@@ -1013,7 +952,7 @@ template: user
 ---
 
 template: user
-# Kubernetes hig-level objects
+# Kubernetes high-level objects
 
 `StatefulSet`
 * Runs X replicas of a single Pod template.
@@ -1029,7 +968,7 @@ template: user
 .center[
 <img src="statefulset.png" width="70%"/>
 ]
-* The pods must be aware of their siblings!
+* The pods must be aware of the other StatefulSet members!
 * Usually very complex setup.
   
 ---
@@ -1050,6 +989,38 @@ template: inverse
   * Where is enough resources to run the pod (CPU, memory, GPU, ...)
 
 PV provisioning is delayed until Pod is created for scheduler to pick a node that matches both PV & Pod.
+
+---
+
+# [Topology aware scheduling](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode): Delayed binding
+
+PV provisioning is delayed until Pod is created for scheduler to pick a node that matches both PV & Pod.
+
+```shell
+$ kubectl get pvc
+NAME              STATUS 
+my-delayed-claim  Pending
+
+$ kubectl describe pvc
+...
+Events:
+  Type    Reason                Age   From                         Message
+  ----    ------                ----  ----                         -------
+  Normal  WaitForFirstConsumer  9s    persistentvolume-controller  waiting for first consumer to
+be created before binding
+```
+--
+```shell
+$ kubectl create -f pod.yaml
+pod/mysql created
+```
+--
+```shell
+$ kubectl get pvc
+NAME              STATUS 
+my-delayed-claim  Bound
+
+```
 
 Wednesday, Hall 8.0 D2, 15:55: [Improving Availability for Stateful Applications in Kubernetes - Michelle Au](https://kccnceu19.sched.com/event/MPfh/improving-availability-for-stateful-applications-in-kubernetes-michelle-au-google)
 
