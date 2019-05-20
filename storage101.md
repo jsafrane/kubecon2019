@@ -1051,6 +1051,40 @@ Wednesday, Hall 8.0 D2, 15:55: [Improving Availability for Stateful Applications
 
 ---
 
+# In-line volumes
+
+* [Persistent](https://kubernetes.io/docs/concepts/storage/volumes/#aws-ebs-example-configuration)
+  * Pod directly references volume
+  * Not portable!
+        ```yaml
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: test-ebs
+        spec:
+          containers:
+          - image: k8s.gcr.io/test-webserver
+            name: test-container
+            volumeMounts:
+            - mountPath: /test-ebs
+              name: test-volume
+          volumes:
+          - name: test-volume
+        *   awsElasticBlockStore:
+        *     volumeID: <volume-id>
+        *     fsType: ext4
+        ```
+---
+
+# In-line volumes
+
+* Ephemeral
+  * [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+  * [Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
+  * [Downward API](https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/)
+
+---
+
 # [Container Storage Interface (CSI)](https://kubernetes-csi.github.io/docs/)
 
 
